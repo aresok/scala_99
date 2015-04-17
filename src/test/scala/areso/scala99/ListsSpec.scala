@@ -115,4 +115,9 @@ class ListsSpec extends FlatSpec with Matchers {
   it should "put empty sublist inot empty listy" in {
     encode(List.empty[Int]) shouldEqual List.empty[(Int,Int)]
   }
+
+  "encodeModifed" should "encode list modified" in {
+    encodeModified(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) shouldEqual List((4,'a), 'b, (2,'c), (2,'a), 'd, (4,'e))
+  }
+
 }

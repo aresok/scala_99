@@ -1,7 +1,6 @@
 package areso.scala99
 
 import scala.annotation.tailrec
-import scala.concurrent.Future
 
 object Lists {
 
@@ -109,5 +108,10 @@ object Lists {
   /** (P10) Run-length encoding of a list (use result of P09). */
   def encode[A](list: List[A]): List[(Int, A)] =
     for (x <- pack(list) if x.nonEmpty) yield (x.length, x.head)
+
+  /** (P11) Modified run-length encoding. */
+  def encodeModified[A](list: List[A]): List[Any] = {
+    for (x <- pack(list) if x.nonEmpty) yield if (x.length > 1) (x.length, x.head) else x.head
+  }
 
 }
