@@ -130,4 +130,12 @@ class ListsSpec extends FlatSpec with Matchers {
   it should "put empty sublist into empty listy" in {
     encode(List.empty[Int]) shouldEqual List.empty[(Int,Int)]
   }
+
+  "duplicate" should "duplicate the list" in {
+    duplicate(List('a, 'b, 'c, 'c, 'd)) shouldEqual List('a, 'a, 'b, 'b, 'c, 'c, 'c, 'c, 'd, 'd)
+  }
+  it should "do nothing for empty list" in {
+    duplicate(List.empty[Int]) shouldEqual List.empty[Int]
+  }
+
 }

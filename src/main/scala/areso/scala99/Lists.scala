@@ -140,4 +140,14 @@ object Lists {
     encodeInternal(List.empty[(Int, A)], None, List.empty[A])
   }
 
+  /** (P14) Duplicate the elements of a list. */
+  def duplicate[A](list: List[A]): List[A] = {
+    @tailrec
+    def duplicateInternal(acc: List[A], list: List[A]): List[A] = list match {
+      case Nil => acc
+      case head :: tail => duplicateInternal(acc :+ head :+ head, tail)
+    }
+    duplicateInternal(List.empty[A], list)
+  }
+
 }
