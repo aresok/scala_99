@@ -69,7 +69,7 @@ object Lists {
     def flattenInternal(result: List[Any], list: List[Any]): List[Any] = list match {
       case head :: tail =>
         head match {
-          case x: List[_] => flattenInternal(flattenInternal(result, x), tail)
+          case x: List[_] => flattenInternal(result ::: flattenInternal(List.empty[Any], x), tail)
           case el => flattenInternal(result :+ el, tail)
         }
       case Nil => result
@@ -86,7 +86,7 @@ object Lists {
   /** (P08) Eliminate consecutive duplicates of list elements. */
   def compress[A](list: List[A]): List[A] = {
     @tailrec
-    def compressInternal[A](current: Option[A], acc: List[A], list: List[A]): List[A] = list match {
+    def compressInternal(current: Option[A], acc: List[A], list: List[A]): List[A] = list match {
       case Nil => acc
       case head :: tail if current.contains(head) => compressInternal(current, acc, tail)
       case head :: tail => compressInternal(Some(head), acc :+ head, tail)
@@ -97,7 +97,7 @@ object Lists {
   /** (P09) Pack consecutive duplicates of list elements into sublists. */
   def pack[A](list: List[A]): List[List[A]] = {
     @tailrec
-    def packInternal[A](current: Option[A], accAll: List[List[A]], accSmall: Option[List[A]], list: List[A]): List[List[A]] = list match {
+    def packInternal(current: Option[A], accAll: List[List[A]], accSmall: Option[List[A]], list: List[A]): List[List[A]] = list match {
       case Nil => accSmall.fold(accAll)(accAll :+ _)
       case head :: tail if current.contains(head) => packInternal(current, accAll, accSmall.map(_ :+ head), tail)
       case head :: tail => packInternal(Some(head), accSmall.fold(accAll)(accAll :+ _), Some(List(head)), tail)
@@ -132,7 +132,7 @@ object Lists {
   /** (P13) Run-length encoding of a list (direct solution). */
   def encodeDirect[A](list: List[A]): List[(Int, A)] = {
     @tailrec
-    def encodeInternal[A](acc: List[(Int, A)], current: Option[(Int, A)], list: List[A]): List[(Int, A)] = list match {
+    def encodeInternal(acc: List[(Int, A)], current: Option[(Int, A)], list: List[A]): List[(Int, A)] = list match {
       case Nil => current.fold(acc)(acc :+ _)
       case head :: tail if current.exists(_._2 == head) => encodeInternal(acc, current.map(x => (x._1 + 1, head)), tail)
       case head :: tail => encodeInternal(current.fold(acc)(acc :+ _), None, tail)
@@ -148,6 +148,16 @@ object Lists {
       case head :: tail => duplicateInternal(acc :+ head :+ head, tail)
     }
     duplicateInternal(List.empty[A], list)
+  }
+
+  /** (P15) Duplicate the elements of a list a given number of times. */
+  def duplicateN[A](n: Int, list: List[A]): List[A] = {
+    @tailrec
+    def duplicateNInternal(acc: List[A], list: List[A]): List[A] = list match {
+      case Nil => acc
+      case head :: tail => duplicateNInternal(acc ::: (for (i <- 1 to n) yield head).toList, tail)
+    }
+    duplicateNInternal(List.empty[A], list)
   }
 
 }

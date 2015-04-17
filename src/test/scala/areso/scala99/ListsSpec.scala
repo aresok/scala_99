@@ -138,4 +138,14 @@ class ListsSpec extends FlatSpec with Matchers {
     duplicate(List.empty[Int]) shouldEqual List.empty[Int]
   }
 
+  "duplicateN" should "duplicate each element N times" in {
+    duplicateN(3, List('a, 'b, 'c, 'c, 'd)) shouldEqual List('a, 'a, 'a, 'b, 'b, 'b, 'c, 'c, 'c, 'c, 'c, 'c, 'd, 'd, 'd)
+  }
+  it should "return empty list for 0 times" in {
+    duplicateN(0, List(1,2,3)) shouldEqual List.empty[Int]
+  }
+  it should "return empty list for empty list" in {
+    duplicateN(3, List.empty[Int]) shouldEqual List.empty[Int]
+  }
+
 }
