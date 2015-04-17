@@ -128,4 +128,16 @@ object Lists {
     }
     decodeInternal(List.empty[A], list)
   }
+
+  /** (P13) Run-length encoding of a list (direct solution). */
+  def encodeDirect[A](list: List[A]): List[(Int, A)] = {
+    @tailrec
+    def encodeInternal[A](acc: List[(Int, A)], current: Option[(Int, A)], list: List[A]): List[(Int, A)] = list match {
+      case Nil => current.fold(acc)(acc :+ _)
+      case head :: tail if current.exists(_._2 == head) => encodeInternal(acc, current.map(x => (x._1 + 1, head)), tail)
+      case head :: tail => encodeInternal(current.fold(acc)(acc :+ _), None, tail)
+    }
+    encodeInternal(List.empty[(Int, A)], None, List.empty[A])
+  }
+
 }

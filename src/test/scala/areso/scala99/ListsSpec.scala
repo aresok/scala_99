@@ -123,4 +123,11 @@ class ListsSpec extends FlatSpec with Matchers {
   "decode" should "decode list" in {
     decode(List((4, 'a), (1, 'b), (2, 'c), (2, 'a), (1, 'd), (4, 'e))) shouldEqual List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)
   }
+
+  "encodeDirect" should "encode the list" in {
+    encode(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) shouldEqual List((4,'a), (1,'b), (2,'c), (2,'a), (1,'d), (4,'e))
+  }
+  it should "put empty sublist into empty listy" in {
+    encode(List.empty[Int]) shouldEqual List.empty[(Int,Int)]
+  }
 }
