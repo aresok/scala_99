@@ -12,6 +12,9 @@ object Lists {
     case Nil => throw new NoSuchElementException
   }
 
+  /** (P01) Find the last element of a list. */
+  def lastBuildIn[A](list: List[A]): A = list.last
+
   /** (P02) Find the last but one element of a list. */
   @tailrec
   def penultimate[A](list: List[A]): A = list match {
@@ -114,4 +117,15 @@ object Lists {
     for (x <- pack(list) if x.nonEmpty) yield if (x.length > 1) (x.length, x.head) else x.head
   }
 
+  /** (P12) Decode a run-length encoded list. */
+  def decode[A](list: List[(Int, A)]): List[A] = {
+    def decodePair(acc: List[A], pair: (Int, A)): List[A] =
+      acc ::: (for(x <- 1 to pair._1) yield pair._2).toList
+    @tailrec
+    def decodeInternal(acc: List[A], list: List[(Int, A)]): List[A] = list match {
+      case Nil => acc
+      case head :: tail => decodeInternal(decodePair(acc, head), tail)
+    }
+    decodeInternal(List.empty[A], list)
+  }
 }
