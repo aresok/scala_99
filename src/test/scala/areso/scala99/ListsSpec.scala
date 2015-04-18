@@ -148,4 +148,23 @@ class ListsSpec extends FlatSpec with Matchers {
     duplicateN(3, List.empty[Int]) shouldEqual List.empty[Int]
   }
 
+  "drop" should "drop every 3rd element from list" in {
+    drop(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)) shouldEqual List('a, 'b, 'd, 'e, 'g, 'h, 'j, 'k)
+  }
+  it should "do nothing for 0 value of n param" in {
+    drop(0, List(1,2,3)) shouldEqual List(1,2,3)
+  }
+  it should "drop all elements for 1 value of n param" in {
+    drop(1, List(1,2,3)) shouldEqual List.empty[Int]
+  }
+  "dropFunctional" should "drop every 3rd element from list" in {
+    dropFunctional(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)) shouldEqual List('a, 'b, 'd, 'e, 'g, 'h, 'j, 'k)
+  }
+  it should "do nothing for 0 value of n param" in {
+    dropFunctional(0, List(1,2,3)) shouldEqual List(1,2,3)
+  }
+  it should "drop all elements for 1 value of n param" in {
+    dropFunctional(1, List(1,2,3)) shouldEqual List.empty[Int]
+  }
+
 }

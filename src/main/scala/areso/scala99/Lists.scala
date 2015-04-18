@@ -150,6 +150,8 @@ object Lists {
     duplicateInternal(List.empty[A], list)
   }
 
+  def duplicate2[A](ls: List[A]): List[A] = ls flatMap{ e => List(e, e) }
+
   /** (P15) Duplicate the elements of a list a given number of times. */
   def duplicateN[A](n: Int, list: List[A]): List[A] = {
     @tailrec
@@ -159,5 +161,22 @@ object Lists {
     }
     duplicateNInternal(List.empty[A], list)
   }
+
+  /** (P16) Drop every Nth element from a list. */
+  def drop[A](n: Int, list: List[A]): List[A] = {
+    @tailrec
+    def dropInternal(acc: List[A], counter: Int, list: List[A]): List[A] = (counter, list) match {
+      case (_, Nil) => acc
+      case (1, _ :: tail) => dropInternal(acc, n, tail)
+      case (_, head :: tail) => dropInternal(acc :+ head, counter - 1, tail)
+    }
+    dropInternal(List.empty[A], n, list)
+  }
+
+  def dropFunctional[A](n: Int, ls: List[A]): List[A] = n match {
+    case 0 => ls
+    case _ => ls.zipWithIndex filter { el => (el._2 + 1) % n != 0 } map { _._1 }
+  }
+
 
 }
