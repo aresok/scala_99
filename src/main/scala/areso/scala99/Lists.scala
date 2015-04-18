@@ -178,5 +178,16 @@ object Lists {
     case _ => ls.zipWithIndex filter { el => (el._2 + 1) % n != 0 } map { _._1 }
   }
 
+  /** (P17) Split a list into two parts. */
+  def split[A](n: Int, list: List[A]): (List[A], List[A]) = {
+    @tailrec
+    def splitInternal(acc: (List[A], List[A]), counter: Int, list: List[A]): (List[A], List[A]) = list match {
+      case Nil => acc
+      case head :: tail if counter < n => splitInternal((acc._1 :+ head, acc._2), counter + 1, tail)
+      case head :: tail => splitInternal((acc._1, acc._2 :+ head), counter + 1, tail)
+    }
+    splitInternal((Nil,Nil), 0, list)
+  }
 
+  def splitFunctional[A](n: Int, list: List[A]): (List[A], List[A]) = (list.take(n), list.drop(n))
 }

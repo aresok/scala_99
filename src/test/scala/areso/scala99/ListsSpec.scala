@@ -167,4 +167,23 @@ class ListsSpec extends FlatSpec with Matchers {
     dropFunctional(1, List(1,2,3)) shouldEqual List.empty[Int]
   }
 
+  "split" should "split list into two" in {
+    split(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)) shouldEqual (List('a, 'b, 'c),List('d, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
+  }
+  it should "make full and empty list if cutpoint exceeds origin list size" in {
+    split(12, List(1,2,3)) shouldEqual (List(1,2,3), List.empty[Int])
+  }
+  it should "make empty and full list if cutpoint is 0" in {
+    split(0, List(1,2,3)) shouldEqual (List.empty[Int], List(1,2,3))
+  }
+  "splitFunctional" should "split list into two" in {
+    splitFunctional(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)) shouldEqual (List('a, 'b, 'c),List('d, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
+  }
+  it should "make full and empty list if cutpoint exceeds origin list size" in {
+    splitFunctional(12, List(1,2,3)) shouldEqual (List(1,2,3), List.empty[Int])
+  }
+  it should "make empty and full list if cutpoint is 0" in {
+    splitFunctional(0, List(1,2,3)) shouldEqual (List.empty[Int], List(1,2,3))
+  }
+
 }
