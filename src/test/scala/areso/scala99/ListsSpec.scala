@@ -186,4 +186,25 @@ class ListsSpec extends FlatSpec with Matchers {
     splitFunctional(0, List(1,2,3)) shouldEqual (List.empty[Int], List(1,2,3))
   }
 
+  "slice" should "extract a slice from list" in {
+    slice(3, 7, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)) shouldEqual List('d, 'e, 'f, 'g)
+  }
+  it should "return whole list for indexes from 0 to end of list" in {
+    slice(0, 5, List('a, 'b, 'c, 'd, 'e)) shouldEqual List('a, 'b, 'c, 'd, 'e)
+  }
+  it should "throw IllegalArgumentException for switched indexes" in {
+    a [IllegalArgumentException] should be thrownBy slice(10, 3, List('a))
+  }
+
+  "sliceTailRec" should "extract a slice from list" in {
+    sliceTailRec(3, 7, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)) shouldEqual List('d, 'e, 'f, 'g)
+  }
+  it should "return whole list for indexes from 0 to end of list" in {
+    sliceTailRec(0, 5, List('a, 'b, 'c, 'd, 'e)) shouldEqual List('a, 'b, 'c, 'd, 'e)
+  }
+  it should "throw IllegalArgumentException for switched indexes" in {
+    a [IllegalArgumentException] should be thrownBy sliceTailRec(10, 3, List('a))
+  }
+
+
 }

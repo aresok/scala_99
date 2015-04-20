@@ -120,7 +120,7 @@ object Lists {
   /** (P12) Decode a run-length encoded list. */
   def decode[A](list: List[(Int, A)]): List[A] = {
     def decodePair(acc: List[A], pair: (Int, A)): List[A] =
-      acc ::: (for(x <- 1 to pair._1) yield pair._2).toList
+      acc ::: (for (x <- 1 to pair._1) yield pair._2).toList
     @tailrec
     def decodeInternal(acc: List[A], list: List[(Int, A)]): List[A] = list match {
       case Nil => acc
@@ -150,7 +150,7 @@ object Lists {
     duplicateInternal(List.empty[A], list)
   }
 
-  def duplicate2[A](ls: List[A]): List[A] = ls flatMap{ e => List(e, e) }
+  def duplicate2[A](ls: List[A]): List[A] = ls flatMap { e => List(e, e) }
 
   /** (P15) Duplicate the elements of a list a given number of times. */
   def duplicateN[A](n: Int, list: List[A]): List[A] = {
@@ -186,8 +186,29 @@ object Lists {
       case head :: tail if counter < n => splitInternal((acc._1 :+ head, acc._2), counter + 1, tail)
       case head :: tail => splitInternal((acc._1, acc._2 :+ head), counter + 1, tail)
     }
-    splitInternal((Nil,Nil), 0, list)
+    splitInternal((Nil, Nil), 0, list)
   }
 
-  def splitFunctional[A](n: Int, list: List[A]): (List[A], List[A]) = (list.take(n), list.drop(n))
+  def splitFunctional[A](n: Int, list: List[A]): (List[A], List[A]) = (list take n, list drop n)
+
+  /** (P18) Extract a slice from a list */
+  def slice[A](begin: Int, end: Int, list: List[A]): List[A] = (begin, end) match {
+    case (b, e) if b > e => throw new IllegalArgumentException
+    case (b, e) if b <= 0 && e >= list.size => list
+    case (b, e) => list drop b take e - b
+  }
+
+  def sliceTailRec[A](begin: Int, end: Int, list: List[A]): List[A] = (begin, end) match {
+    case (b, e) if b > e => throw new IllegalArgumentException
+    case (b, e) if b <= 0 && e >= list.size => list
+    case (b, e) =>
+      @tailrec
+      def sliceInternal(acc: List[A], idx: Int, list: List[A]): List[A] = list match {
+        case Nil => acc
+        case head :: tail if idx >= b && idx < e => sliceInternal(acc :+ head, idx + 1, tail)
+        case _ :: tail => sliceInternal(acc, idx + 1, tail)
+      }
+      sliceInternal(List.empty[A], 0, list)
+  }
+
 }
