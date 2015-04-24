@@ -228,4 +228,11 @@ class ListsSpec extends FlatSpec with Matchers {
   it should "do nothing for 0 value" in {
     rotate2(0, List(1,2,3)) shouldEqual List(1,2,3)
   }
+
+  "removeAt" should "remove element at specified position" in {
+    removeAt(1, List('a, 'b, 'c, 'd)) shouldEqual (List('a, 'c, 'd),'b)
+  }
+  it should "throw IllegalArgumentException if N is not in the bounds" in {
+    a [IllegalArgumentException] should be thrownBy removeAt(10, List(1,2,3))
+  }
 }

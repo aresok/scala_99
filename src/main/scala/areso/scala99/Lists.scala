@@ -225,4 +225,15 @@ object Lists {
     case c => (list drop c) ::: (list take c)
   }
 
+  /** (P20) Remove the Kth element from a list. */
+  def removeAt[A](n: Int, list: List[A]): (List[A], A) = n match {
+    case _ if n >= list.length => throw new IllegalArgumentException
+    case _ =>
+      def removeAtInternal(acc: (List[A], A), idx: Int, list: List[A]): (List[A], A) = list match {
+        case Nil => acc
+        case head :: tail if idx == n => removeAtInternal((acc._1, head), idx + 1, tail)
+        case head :: tail => removeAtInternal((acc._1 :+ head, acc._2), idx + 1, tail)
+      }
+      removeAtInternal((Nil, null.asInstanceOf[A]), 0, list)
+  }
 }
