@@ -206,5 +206,26 @@ class ListsSpec extends FlatSpec with Matchers {
     a [IllegalArgumentException] should be thrownBy sliceTailRec(10, 3, List('a))
   }
 
+  "rotate" should "rotate a list right for positive value" in {
+    rotate(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)) shouldEqual List('d, 'e, 'f, 'g, 'h, 'i, 'j, 'k, 'a, 'b, 'c)
+  }
+  it should "rotate a list left for negative value" in {
+    rotate(-2, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)) shouldEqual List('j, 'k, 'a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i)
+  }
+  it should "do nothing for 0 value" in {
+    rotate(0, List(1,2,3)) shouldEqual List(1,2,3)
+  }
 
+  "rotate2" should "rotate a list right for positive value" in {
+    rotate2(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)) shouldEqual List('d, 'e, 'f, 'g, 'h, 'i, 'j, 'k, 'a, 'b, 'c)
+  }
+  it should "rotate a list left for negative value" in {
+    rotate2(-2, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)) shouldEqual List('j, 'k, 'a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i)
+  }
+  it should "rotate a list when N is greater than list size" in {
+    rotate2(4, List('a, 'b, 'c)) shouldEqual List('b, 'c, 'a)
+  }
+  it should "do nothing for 0 value" in {
+    rotate2(0, List(1,2,3)) shouldEqual List(1,2,3)
+  }
 }

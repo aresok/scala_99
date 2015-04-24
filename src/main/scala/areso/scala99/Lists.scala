@@ -211,4 +211,18 @@ object Lists {
       sliceInternal(List.empty[A], 0, list)
   }
 
+  /** (P19) Rotate a list N places to the left. */
+  def rotate[A](n: Int, list: List[A]): List[A] = n match {
+    case 0 => list
+    case _ if n > 0 => list.drop(n) ++ list.take(n)
+    case _ if n < 0 => list.drop(list.length + n) ++ list.take(list.length + n)
+  }
+
+  @tailrec
+  def rotate2[A](n: Int, list: List[A]): List[A] = n % list.length match {
+    case 0 => list
+    case c if c < 0 => rotate2(c + list.length, list)
+    case c => (list drop c) ::: (list take c)
+  }
+
 }
