@@ -229,11 +229,32 @@ object Lists {
   def removeAt[A](n: Int, list: List[A]): (List[A], A) = n match {
     case _ if n >= list.length => throw new IllegalArgumentException
     case _ =>
+      @tailrec
       def removeAtInternal(acc: (List[A], A), idx: Int, list: List[A]): (List[A], A) = list match {
         case Nil => acc
         case head :: tail if idx == n => removeAtInternal((acc._1, head), idx + 1, tail)
         case head :: tail => removeAtInternal((acc._1 :+ head, acc._2), idx + 1, tail)
       }
       removeAtInternal((Nil, null.asInstanceOf[A]), 0, list)
+  }
+
+  /** (P21)  Insert an element at a given position into a list. */
+  def insertAt[A](el: A, n: Int, list: List[A]): List[A] = {
+    val nTrimed = n match {
+      case _ if n < 0 => 0
+      case _ if n > list.length => list.length
+      case _ => n
+    }
+    @tailrec
+    def insertAtInternal(acc: List[A], el: A, idx: Int, list: List[A]): List[A] = list match {
+      case Nil if idx == nTrimed => acc :+ el
+      case Nil => acc
+      case head :: tail if idx == nTrimed => insertAtInternal(acc :+ el :+ head, el, idx + 1, tail)
+      case head :: tail => insertAtInternal(acc :+ head, el, idx + 1, tail)
+    }
+    insertAtInternal(Nil, el, 0, list)
+  }
+  def insertAt2[A](el: A, n: Int, list: List[A]): List[A] = list.splitAt(n) match {
+    case (begin, end) => begin ::: el :: end
   }
 }

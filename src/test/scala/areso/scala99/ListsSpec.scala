@@ -235,4 +235,24 @@ class ListsSpec extends FlatSpec with Matchers {
   it should "throw IllegalArgumentException if N is not in the bounds" in {
     a [IllegalArgumentException] should be thrownBy removeAt(10, List(1,2,3))
   }
+
+  "insertAt" should "insert element at specified position" in {
+    insertAt('new, 1, List('a, 'b, 'c, 'd)) shouldEqual List('a, 'new, 'b, 'c, 'd)
+  }
+  it should "insert element at the end if index is behind list size" in {
+    insertAt(5, 10, List(1,2,3)) shouldEqual List(1,2,3,5)
+  }
+  it should "insert element at 0 index is negative" in {
+    insertAt(5, -10, List(1,2,3)) shouldEqual List(5,1,2,3)
+  }
+  "insertAt2" should "insert element at specified position" in {
+    insertAt2('new, 1, List('a, 'b, 'c, 'd)) shouldEqual List('a, 'new, 'b, 'c, 'd)
+  }
+  it should "insert element at the end if index is behind list size" in {
+    insertAt2(5, 10, List(1,2,3)) shouldEqual List(1,2,3,5)
+  }
+  it should "insert element at 0 index is negative" in {
+    insertAt2(5, -10, List(1,2,3)) shouldEqual List(5,1,2,3)
+  }
+
 }
