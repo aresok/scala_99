@@ -175,7 +175,9 @@ object Lists {
 
   def dropFunctional[A](n: Int, ls: List[A]): List[A] = n match {
     case 0 => ls
-    case _ => ls.zipWithIndex filter { el => (el._2 + 1) % n != 0 } map { _._1 }
+    case _ => ls.zipWithIndex filter { el => (el._2 + 1) % n != 0 } map {
+      _._1
+    }
   }
 
   /** (P17) Split a list into two parts. */
@@ -238,7 +240,7 @@ object Lists {
       removeAtInternal((Nil, null.asInstanceOf[A]), 0, list)
   }
 
-  /** (P21)  Insert an element at a given position into a list. */
+  /** (P21) Insert an element at a given position into a list. */
   def insertAt[A](el: A, n: Int, list: List[A]): List[A] = {
     val nTrimed = n match {
       case _ if n < 0 => 0
@@ -254,7 +256,12 @@ object Lists {
     }
     insertAtInternal(Nil, el, 0, list)
   }
+
   def insertAt2[A](el: A, n: Int, list: List[A]): List[A] = list.splitAt(n) match {
     case (begin, end) => begin ::: el :: end
   }
+
+  /** (P22) Create a list containing all integers within a given range. */
+  def range(start: Int, end: Int): List[Int] = (start to end by (if (start > end) -1 else 1)).toList
+
 }

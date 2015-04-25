@@ -255,4 +255,14 @@ class ListsSpec extends FlatSpec with Matchers {
     insertAt2(5, -10, List(1,2,3)) shouldEqual List(5,1,2,3)
   }
 
+  "range" should "create list with specified range" in {
+    range(4,9) shouldEqual List(4, 5, 6, 7, 8, 9)
+  }
+  it should "create single element list wih the same start and end values" in {
+    range(3,3) shouldEqual List(3)
+  }
+  it should "create reverse range" in {
+    range(9,4) shouldEqual List(9, 8, 7, 6, 5, 4)
+  }
+
 }
